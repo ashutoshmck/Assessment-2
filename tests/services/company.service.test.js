@@ -6,4 +6,10 @@ describe('CompanyService', () => {
       expect(typeof companies).toBe('object');
     });
   });
+  describe('getTopRankedCompanies', () => {
+    it('should return top ranked companies according to score', async () => {
+      const companies = await CompanyService.getTopRankedCompanies('Software');
+      expect(typeof companies).toBe('object');
+    });
+  });
 });
