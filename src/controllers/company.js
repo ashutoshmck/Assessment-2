@@ -12,7 +12,7 @@ const saveCompanyDetails = async (request, response) => {
 };
 const getTopRankedCompanies = async (request, response) => {
   try {
-    const companies = await CompanyService.getTopRankedCompanies(request.params.sectorName);
+    const companies = await CompanyService.getTopRankedCompanies(request.query.sector);
     return response.status(200).json({ status: 200, data: companies, message: 'Retreived Top Ranked Companies' });
   } catch (error) {
     return response.status(500).json({ status: 500, message: error.message });

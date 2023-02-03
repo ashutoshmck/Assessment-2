@@ -24,8 +24,9 @@ const saveCompanyDetails = async (url) => {
         console.log(err);
     });
   return db.Company.findAll({ attributes: ['id', 'name', 'score'] });
-}
-const getTopRankedCompanies = (sectorName) => {
-  return db.Company.findAll({ where: { sectorName: sectorName }, attributes: ['id', 'name', 'ceo', 'score', [Sequelize.literal('(RANK() OVER (ORDER BY score score DESC))'), 'rank']] });
+};
+const getTopRankedCompanies = async (sectorName) => {
+  let companies = await db.Company.findAll({ where: { sectorName: sectorName }, attributes: ['id', 'name', 'ceo', 'score', [Sequelize.literal('(RANK() OVER (ORDER BY score DESC))'), 'ranking']] });
+  return companies;
 };
 module.exports = { saveCompanyDetails, getTopRankedCompanies };

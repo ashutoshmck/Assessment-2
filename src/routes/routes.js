@@ -17,6 +17,6 @@ const urlSchema = Joi.object({ urlLink: Joi.string().required() });
 
 router.route('/api/save')
   .post(validationMiddleware(urlSchema), CompanyController.saveCompanyDetails);
-router.route('api/companies')
+router.route('/api/companies')
   .get(CompanyController.getTopRankedCompanies);
 module.exports = { router };
