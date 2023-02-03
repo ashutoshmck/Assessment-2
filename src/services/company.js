@@ -29,4 +29,9 @@ const getTopRankedCompanies = async (sectorName) => {
   let companies = await db.Company.findAll({ where: { sectorName: sectorName }, attributes: ['id', 'name', 'ceo', 'score', [Sequelize.literal('(RANK() OVER (ORDER BY score DESC))'), 'ranking']] });
   return companies;
 };
-module.exports = { saveCompanyDetails, getTopRankedCompanies };
+const changeNameOfCompany = async (id, name) => {
+  await db.Company.update({ name: name }, { where: { id: id } });
+  let company = await db.Company.findOne({ where: { id: id } });
+  return company;
+};
+module.exports = { saveCompanyDetails, getTopRankedCompanies, changeNameOfCompany };

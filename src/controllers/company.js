@@ -18,4 +18,12 @@ const getTopRankedCompanies = async (request, response) => {
     return response.status(500).json({ status: 500, message: error.message });
   }
 };
-module.exports = { saveCompanyDetails, getTopRankedCompanies };
+const changeNameOfCompany = async (request, response) => {
+  try {
+    const company = await CompanyService.changeNameOfCompany(request.params.id, request.body.name);
+    return response.status(200).json({ status: 200, data: company, message: 'Modified Company Name' });
+  } catch (error) {
+    return response.status(500).json({ status: 500, message: error.message });
+  }
+};
+module.exports = { saveCompanyDetails, getTopRankedCompanies, changeNameOfCompany };

@@ -19,4 +19,6 @@ router.route('/api/save')
   .post(validationMiddleware(urlSchema), CompanyController.saveCompanyDetails);
 router.route('/api/companies')
   .get(CompanyController.getTopRankedCompanies);
+router.route('/api/companies/:id')
+  .patch(CompanyController.changeNameOfCompany);
 module.exports = { router };
