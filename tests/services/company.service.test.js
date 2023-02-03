@@ -1,7 +1,7 @@
 const CompanyService = require('../../src/services/company');
 describe('CompanyService', () => {
   describe('saveCompanyDetails', () => {
-    it('should return created users', async () => {
+    it('should return created companies', async () => {
       const companies = await CompanyService.saveCompanyDetails('https://store-0001.s3.amazonaws.com/input.csv');
       expect(typeof companies).toBe('object');
     });

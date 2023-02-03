@@ -19,22 +19,22 @@ const saveCompanyDetails = async (url) => {
       let mau = Number(companyPerformanceData.performanceIndex.find(element => element.key === 'mau').value);
       let roic = Number(companyPerformanceData.performanceIndex.find(element => element.key === 'roic').value);
       let score = scoreUtil.calculateScore(cpi, cf, mau, roic);
-      let company = await db.Company.create({ name: companyDetailsResponse.data.name, tags: companyDetailsResponse.data.tags, ceo: companyDetailsResponse.data.ceo, score: Number(score), numberOfEmployees: 0, sectorName: data.company_sector });
+      let company = await db.Company.create({ companyId: String(data.company_id), name: companyDetailsResponse.data.name, tags: companyDetailsResponse.data.tags, ceo: companyDetailsResponse.data.ceo, score: Number(score), numberOfEmployees: 0, sectorName: data.company_sector });
     })
     .on('end', (err) => {
       if (err)
         console.log(err);
     });
-  const companies = await db.Company.findAll({ attributes: ['id', 'name', 'score'] });
+  const companies = await db.Company.findAll({ attributes: [['companyId', 'id'], 'name', 'score'] });
   return companies;
 };
 const getTopRankedCompanies = async (sectorName) => {
-  let companies = await db.Company.findAll({ where: { sectorName: sectorName }, attributes: ['id', 'name', 'ceo', 'score', [Sequelize.literal('(RANK() OVER (ORDER BY score DESC))'), 'ranking']] });
+  let companies = await db.Company.findAll({ where: { sectorName: sectorName }, attributes: [['companyId', 'id'], 'name', 'ceo', 'score', [Sequelize.literal('(RANK() OVER (ORDER BY score DESC))'), 'ranking']] });
   return companies;
 };
 const changeNameOfCompany = async (id, name) => {
-  await db.Company.update({ name: name }, { where: { id: id } });
-  let company = await db.Company.findOne({ where: { id: id } });
+  await db.Company.update({ name: name }, { where: { companyId: id } });
+  let company = await db.Company.findOne({ where: { companyId: id } });
   return company;
 };
 module.exports = { saveCompanyDetails, getTopRankedCompanies, changeNameOfCompany };
