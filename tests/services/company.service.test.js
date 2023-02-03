@@ -1,4 +1,4 @@
-const CompanyService = require('../../src/services/user');
+const CompanyService = require('../../src/services/company');
 describe('CompanyService', () => {
   describe('saveCompanyDetails', () => {
     it('should return created users', async () => {
@@ -9,6 +9,12 @@ describe('CompanyService', () => {
   describe('getTopRankedCompanies', () => {
     it('should return top ranked companies according to score', async () => {
       const companies = await CompanyService.getTopRankedCompanies('Software');
+      expect(typeof companies).toBe('object');
+    });
+  });
+  describe('changeNameOfCompany', () => {
+    it('should modified company', async () => {
+      const companies = await CompanyService.changeNameOfCompany(43, 'Apple');
       expect(typeof companies).toBe('object');
     });
   });
