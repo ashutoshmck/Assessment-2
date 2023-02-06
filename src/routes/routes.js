@@ -1,7 +1,7 @@
 const Router = require('express');
 const router = Router();
 const CompanyController = require('../controllers/company');
-const { urlValidation, sectorNameValidation } = require('../middleware/validation');
+const { urlValidation, sectorNameValidation, changeNameBodyValidation, changeNameIdValidation } = require('../middleware/validation');
 
 
 
@@ -10,5 +10,5 @@ router.route('/api/save')
 router.route('/api/companies')
   .get(sectorNameValidation, CompanyController.getTopRankedCompanies);
 router.route('/api/companies/:id')
-  .patch(CompanyController.changeNameOfCompany);
+  .patch(changeNameBodyValidation, changeNameIdValidation, CompanyController.changeNameOfCompany);
 module.exports = { router };

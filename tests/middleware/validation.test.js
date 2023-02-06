@@ -1,4 +1,4 @@
-const { urlValidation, sectorNameValidation } = require('../../src/middleware/validation');
+const { urlValidation, sectorNameValidation, changeNameIdValidation, changeNameBodyValidation } = require('../../src/middleware/validation');
 
 describe('Validation', () => {
   describe('Url link validation', () => {
@@ -30,6 +30,36 @@ describe('Validation', () => {
       };
       const mockNext = jest.fn();
       sectorNameValidation(mockReq, mockRes, mockNext);
+      expect(mockNext).toBeCalled();
+    });
+  });
+  describe('change company name validation', () => {
+    it('should successfully validate id', () => {
+      const mockReq = {
+        params: {
+          companyId: 'abcdef'
+        }
+      };
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn()
+      };
+      const mockNext = jest.fn();
+      changeNameIdValidation(mockReq, mockRes, mockNext);
+      expect(mockNext).toBeCalled();
+    });
+    it('should successfully validate body', () => {
+      const mockReq = {
+        body: {
+          name: 'Walnut'
+        }
+      };
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn()
+      };
+      const mockNext = jest.fn();
+      changeNameBodyValidation(mockReq, mockRes, mockNext);
       expect(mockNext).toBeCalled();
     });
   });
