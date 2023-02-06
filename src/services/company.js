@@ -7,6 +7,7 @@ const { default: axios } = require('axios');
 const db = require('../../database/models/index');
 const scoreUtil = require('../utils/scoreCalculator');
 const { pipeline } = require('stream/promises');
+
 const saveCompanyDetails = async (url) => {
   const data = await (await axios.get(url)).data;
   const companyData = data.split('\n');
@@ -27,13 +28,16 @@ const saveCompanyDetails = async (url) => {
   const companies = await db.Company.findAll({ attributes: [['companyId', 'id'], 'name', 'score'] });
   return companies;
 };
+
 const getTopRankedCompanies = async (sectorName) => {
   let companies = await db.Company.findAll({ where: { sectorName: sectorName }, attributes: [['companyId', 'id'], 'name', 'ceo', 'score', [Sequelize.literal('(RANK() OVER (ORDER BY score DESC))'), 'ranking']] });
   return companies;
 };
+
 const changeNameOfCompany = async (id, name) => {
   await db.Company.update({ name: name }, { where: { companyId: id } });
   let company = await db.Company.findOne({ where: { companyId: id } });
   return company;
 };
+
 module.exports = { saveCompanyDetails, getTopRankedCompanies, changeNameOfCompany };
